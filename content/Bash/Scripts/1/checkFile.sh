@@ -1,0 +1,24 @@
+<<<<<<< HEAD
+#!/bin/bash
+# checkFile.sh
+# Проверка существования файла
+echo "Введите имя файла: "
+read filename
+
+if [ -f "$filename" ]; then
+    echo "Файл $filename существует!"
+else
+    echo "Файл $filename не найден."
+=======
+#!/bin/bash
+# checkFile.sh
+# Проверка существования файла
+echo "Введите имя файла: "
+read filename
+
+if [ -f "$filename" ]; then
+    echo "Файл $filename существует!"
+else
+    echo "Файл $filename не найден."
+>>>>>>> 7d47e38 (123)
+fi
