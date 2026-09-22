@@ -1,0 +1,22 @@
+## [Самостоятельная работа по Dockerfile: Hello, World!](../Dockerfile-content/hello-world/HW_README.md)
+## [Самостоятельная работа по Dockerfile: Static Site: Nginx](../Dockerfile-content/StaticSite_Nginx/SSN_README.md)
+## [Самостоятельная работа по Dockerfile: Simple App on Python](../Dockerfile-content/MyApp/cS_README.md)
+## [Самостоятельная работа по Dockerfile: Flask + Python](../Dockerfile-content/simple_flask_app/SFA_README.md)
+## [Самостоятельная работа по Dockerfile: C# (.NET)](../Dockerfile-content/MyApp/cS_README.md)
+## [Самостоятельная работа по Dockerfile: C++](../Dockerfile-content/cpp-docker/cpp_README.md)
+## [Самостоятельная работа по Dockerfile: C++ and FTXUI](../Dockerfile-content/cpp-ftxui/cf_README.md)
+## [Самостоятельная работа по Dockerfile: Wow - console app for C++ and FTXUI](../Dockerfile-content/ftxui-wow/wow_README.md)
+## [Самостоятельная работа по Dockerfile: C++ and FLTK](../Dockerfile-content/cpp-fltk/cpp-f_README.md)
+## [Самостоятельная работа по Dockerfile: Rust](../Dockerfile-content/rust-docker/rust_README.md)
+## [Самостоятельная работа по Dockerfile: Ruby](../Dockerfile-content/ruby-app/ruby_README.md)
+## [Самостоятельная работа по Dockerfile: PHP](../Dockerfile-content/php-docker/php_README.md)
+## [Самостоятельная работа по Dockerfile: Node.js](../Dockerfile-content/my-node-app/node_README.md)
+## [Самостоятельная работа по Dockerfile: TypeScript](../Dockerfile-content/my-ts-app/typeS_README.md)
+## [Самостоятельная работа по Dockerfile: Pascal](../Dockerfile-content/pascal-app/pas_README.md)
+## [Самостоятельная работа по Dockerfile: Java](../Dockerfile-content/my-java-app/java_README.md)
+## [Самостоятельная работа по Dockerfile: Qt5](../Dockerfile-content/qt-docker-app/qt_README.md)
+## [Самостоятельная работа по Dockerfile: Qt6](../Dockerfile-content/qt6-docker-app/qt6_README.md)
+
+### Extra:
+
+## [Самостоятельная работа по Dockerfile: PostgreSQL + Adminer](../Dockerfile-content/adminer-dockerfile/adm_README.md)

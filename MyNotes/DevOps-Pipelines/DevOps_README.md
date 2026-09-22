@@ -1,0 +1,5 @@
+# [Самостоятельная работа по DevOps/Pipelines: Первый Pipeline](../DevOps-Pipelines/FirstPipeline/1st_pipeline.md)
+# [Самостоятельная работа по DevOps/Pipelines: Python Pipeline CI](../DevOps-Pipelines/PythonPipelineCI/py_pipe_ci.md)
+# [Самостоятельная работа по DevOps/Pipelines: Node.js](../DevOps-Pipelines/Nodejs_PipelineCI/nodejs_ci.md)
+# [Самостоятельная работа по DevOps/Pipelines: Go](../DevOps-Pipelines/Go_PipelineCI/go_ci.md)
+# [Самостоятельная работа по DevOps/Pipelines: Rust](../DevOps-Pipelines/Rust_PipelineCI/rust_ci.md)
