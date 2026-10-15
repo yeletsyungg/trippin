@@ -7,7 +7,7 @@
 | № | Задание | Репозиторий |
 |---|---------|-------------|
 | 1 | Первый Pipeline | (https://github.com/yeletsyungg/my-first-cicd) |
-| 2 | Пайплайн для Python ||   —  | 
+| 2 | Пайплайн для Python ||(https://github.com/yeletsyungg/my-python-app.git) | 
 | 3 | Node.js / TypeScript REST API || — | 
 | 4 | Go |(https://github.com/yeletsyungg/my-go-app) | 
 | 5 | Rust CLI || — | 
