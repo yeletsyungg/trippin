@@ -9,7 +9,7 @@
 | 1 | Первый Pipeline | (https://github.com/yeletsyungg/my-first-cicd) |
 | 2 | Пайплайн для Python ||   —  | 
 | 3 | Node.js / TypeScript REST API || — | 
-| 4 | Go || — | 
+| 4 | Go |(https://github.com/yeletsyungg/my-go-app) | 
 | 5 | Rust CLI || — | 
 | 6 | PHP + MySQL || — | 
 | 7 | C++ | | — |
