@@ -6,7 +6,7 @@
 
 | № | Задание | Папка | Репозиторий |
 |---|---------|-------|-------------|
-| 1 | Первый Pipeline | [`01-first-pipeline/`] |  https://github.com/yeletsyungg/my-first-cicd  |
+| 1 | Первый Pipeline | [`01-first-pipeline/`] (https://github.com/yeletsyungg/my-first-cicd)  |
 | 2 | Пайплайн для Python | [`02-python-pipeline/`] |   —  | 
 | 3 | Node.js / TypeScript REST API | `03-nodejs-rest-api/` | — | 
 | 4 | Go | `04-go/` | — | 
