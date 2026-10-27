@@ -10,7 +10,7 @@
 | 2 | Пайплайн для Python |(https://github.com/yeletsyungg/my-python-app) | 
 | 3 | Node.js / TypeScript REST API |(https://github.com/yeletsyungg/my-node-app)| 
 | 4 | Go |(https://github.com/yeletsyungg/my-go-app) | 
-| 5 | Rust CLI || — | 
+| 5 | Rust CLI ||(https://github.com/yeletsyungg/my-rust-app) | 
 | 6 | PHP + MySQL || — | 
 | 7 | C++ | | — |
 | 8 | Hello Java! |  | — |
