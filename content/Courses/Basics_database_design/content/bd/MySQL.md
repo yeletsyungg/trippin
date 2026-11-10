@@ -11,6 +11,7 @@ InnoDB
 - [Все основные типы JOIN](#join)
 - [Подзапросы и UNION](#subqueries)
 - [Изменение структуры](#alter)
+- [Создание дампа БД](#dump)
 - [Удаление объектов](#drop)
 - [Направления для дальнейшего изучения](#next)
 
@@ -18,16 +19,20 @@ InnoDB
 - запустить «чистый» контейнер
 - подключиться к нему
 - выполнять основные операции с базами данных
+- сделать дамп базы данных
 
 <a id="docker"></a>
 ### 🚀 Шаг 1: Запуск контейнера MySQL
 
-- Создайте отдельный каталог `my-mysql` и перейдите в него.
-- Создайте в каталоге `my-mysql` файл `my.cnf` с содержимым:
+- Создайте отдельный каталог `my-mysql` и перейдите в него (`cd my-mysql`).
+- Создайте в каталоге `my-mysql` файл `my.cnf` с содержимым (на забудьте перейти в папку `my-mysql`):
 ```shell
 [mysqld]
 character-set-server = utf8mb4
 collation-server = utf8mb4_unicode_ci
+general_log = 1
+general_log_file = /var/lib/mysql/general.log
+log_output = FILE
 
 [client]
 default-character-set = utf8mb4
@@ -35,7 +40,15 @@ default-character-set = utf8mb4
 [mysql]
 default-character-set = utf8mb4
 ```
-Контейнер с официального образа MySQL:
+В каталоге `my-mysql` создайте папку `logs` для логов
+```shell
+mkdir -p logs
+```
+создать файл `general.log` для ведения журнала действий в БД
+```shell
+touch general.log
+```
+Контейнер с официального образа **MySQL**:
 ```bash
 docker run --name my-mysql \
   -e MYSQL_ROOT_PASSWORD=123 \
@@ -44,7 +57,6 @@ docker run --name my-mysql \
   -v $(pwd)/my.cnf:/etc/mysql/conf.d/my.cnf \
   -d mysql:latest
 ```
-
 Разберем, что делает эта команда:
 *   `--name my-mysql`: Присваивает контейнеру понятное имя `my-mysql`, чтобы не использовать его ID.
 *   `-e MYSQL_ROOT_PASSWORD=123`: Устанавливает пароль для пользователя root. В учебном примере — 123, в реальных проектах используйте надёжный пароль.
@@ -107,9 +119,32 @@ SHOW DATABASES;
 
 **2. Создание новой базы данных и таблицы в ней**
 
-Получить краткую справку по командам СУБД MySQL
+Получить краткую справку по командам СУБД **MySQL**
 ```sql
 help
+```
+
+Фильтр таблиц для лога
+```sql
+SELECT event_time, command_type, argument
+FROM mysql.general_log
+WHERE user_host LIKE 'root@%'
+ORDER BY event_time DESC;
+```
+и
+```sql
+SELECT event_time, command_type, argument
+FROM mysql.general_log
+WHERE user_host LIKE 'root@%'
+  AND argument NOT LIKE 'SET NAMES%'
+  AND argument NOT LIKE 'SHOW VARIABLES%'
+  AND argument NOT LIKE 'SELECT @@%'
+  AND argument NOT LIKE 'SET SESSION sql_log_off%'  -- на всякий случай
+ORDER BY event_time DESC;
+```
+и
+```sql
+SET SESSION sql_log_off = ON;
 ```
 
 Создадим базу данных с именем `my_database` с таблицей `users`. Рекомендуется сразу указывать кодировку:
@@ -250,24 +285,22 @@ quit
 
 ### 🧹 Шаг 4: Управление контейнером
 
-*   **Остановка контейнера:**
-    ```bash
-    docker stop my-mysql
-    ```
-*   **Запуск ранее остановленного контейнера:**
-    ```bash
-    docker start my-mysql
-    ```
-*   **Просмотр логов (может пригодиться для отладки):**
-    ```bash
-    docker logs my-mysql
-    ```
-*   **Полное удаление контейнера (вместе с volume, если он не нужен):**
-    ```bash
-    docker rm -v my-mysql
-    ```
-    Флаг `-v` также удалит связанный с контейнером volume. **Будьте осторожны: это приведет к безвозвратной потере данных.**
-
+**Остановка контейнера:**
+```bash
+docker stop my-mysql
+```
+**Запуск ранее остановленного контейнера:**
+```bash
+docker start my-mysql
+```
+**Просмотр логов (может пригодиться для отладки):**
+```bash
+docker logs my-mysql
+```
+**Просмотр логов с перенаправлением в файл**
+```shell
+docker logs my-mysql > log.txt
+```
 Если нужно пересоздать контейнер с сохранением данных:
 ```shell
 docker stop my-mysql
@@ -367,14 +400,23 @@ orders.ibd
 ## ✍️ Шаг 3: Вставка данных (INSERT)
 
 Вернуться в базу данных
-```sql
+```shell
 docker exec -it my-mysql mysql --default-character-set=utf8mb4 -uroot -p
 ```
 Использовать указанную БД
 ```sql
 USE sql_practice;
 ```
-и вставить эту инструкцию
+Показать таблицы
+```sql
+SHOW TABLES;
+```
+Показать содержимое таблиц:
+```sql
+SELECT * FROM customers;
+SELECT * FROM orders;
+```
+и выполнить эту инструкцию
 ```sql
 INSERT INTO customers (name, email, city) VALUES
   ('Иван Иванов', 'ivan@example.com', 'Москва'),
@@ -531,7 +573,7 @@ INNER JOIN orders o ON c.id = o.customer_id;
 Алиасы в SQL
 ```sql
 FROM customers c
-JOIN orders o ON c.id = o.customer_id
+JOIN orders o ON c.id = o.customer_id;
 ```
 Здесь:
 - `customers c` — таблица **customers** получает псевдоним `c`
@@ -552,7 +594,7 @@ ERROR 1052 (23000): Column 'id' in field list is ambiguous
 ```sql
 SELECT c.id, o.id FROM customers c JOIN orders o ON c.id = o.customer_id;
 ```
-[Подробней про алиасы в SQL тут >>>]()
+[Подробней про алиасы в SQL тут >>>](/content/Courses/Basics_database_design/content/Docs/Aliases.md)
 
 
 ### 7.2. LEFT JOIN — все клиенты, даже без заказов
@@ -561,7 +603,7 @@ SELECT c.name, o.id AS order_id, o.amount
 FROM customers c
 LEFT JOIN orders o ON c.id = o.customer_id;
 ```
-**LEFT JOIN** (левое внешнее соединение) — возвращает все строки из левой таблицы, даже если нет совпадений в правой. Для несовпавших строк правая таблица даёт NULL.
+**LEFT JOIN** (левое внешнее соединение) — возвращает все строки из левой таблицы, даже если нет совпадений в правой. Для несовпавших строк правая таблица даёт **NULL**.
 
 Клиенты без заказов будут иметь `NULL` в полях заказа.
 
@@ -571,7 +613,7 @@ SELECT c.name, o.id AS order_id
 FROM customers c
 RIGHT JOIN orders o ON c.id = o.customer_id;
 ```
-RIGHT JOIN (правое внешнее соединение) — возвращает все строки из правой таблицы, даже если нет совпадений в левой.
+**RIGHT JOIN** (правое внешнее соединение) — возвращает все строки из правой таблицы, даже если нет совпадений в левой.
 
 Результат: все строки из правой таблицы (orders) + совпадения из левой (customers). Если у заказа нет клиента — в поле c.name будет NULL.
 
@@ -709,7 +751,7 @@ SELECT city FROM customers;
 | Читабельность | Лучше для соединения данных | Лучше для фильтрации |
 | Производительность | Обычно быстрее | Может быть медленнее |
 | Когда использовать | Нужны данные из обеих таблиц | Нужна только фильтрация |
-| **EXISTS** | — | Часто быстрее, чем `IN` |
+| **EXISTS** | — | Часто быстрее, чем **IN** |
 
 ---
 
@@ -729,7 +771,30 @@ SELECT * FROM orders WHERE id = 3;
 
 ⚠️ **Важно:** всегда указывайте `WHERE`, иначе обновятся все строки!
 
-### 8.4. Создание дампа
+<a id="dump"></a>
+
+### 8.4. Создание лога и дампа
+
+Как проверить, что лог пишется
+```shell
+docker exec my-mysql ls -la /var/lib/mysql/general.log
+```
+Должен быть примерно такой вывод:
+```shell
+-rw-r----- 1 mysql mysql 3265 Nov  3 08:46 /var/lib/mysql/general.log
+```
+заглянуть в него:
+```shell
+docker exec my-mysql cat /var/lib/mysql/general.log
+```
+забрать лог на хост
+```shell
+docker cp my-mysql:/var/lib/mysql/general.log ./general.log
+```
+Очистка лога внутри контейнера
+```shell
+docker exec my-mysql sh -c ': > /var/lib/mysql/general.log'
+```
 
 Создание дампа БД (Экспорт в `.sql` файл)
 
@@ -745,6 +810,10 @@ docker exec my-mysql mysqldump -uroot -p123 sql_practice > dump.sql
 ```shell
 docker exec -e MYSQL_PWD=123 my-mysql mysqldump -uroot sql_practice > dump.sql
 ```
+или
+```shell
+docker exec my-mysql mysqldump -uroot -p123 --set-gtid-purged=OFF sql_practice > dump_clean.sql
+```
 после чего в папке `my-mysql` появится текстовый файл `dump.sql`, содержимое которого можно увидеть командой
 ```shell
 cat dump.sql
@@ -753,19 +822,34 @@ cat dump.sql
 
 ---
 
-## 🗑️ Шаг 10: Удаление данных (DELETE)
+## 🗑️ Шаг 10: Удаление и изменение данных (DELETE)
 
+
+Снова зайти в конейнер с БД
+```shell
+docker exec -it my-mysql mysql --default-character-set=utf8mb4 -uroot -p
+```
+выбрать БД
+```sql
+USE sql_practice
+```
+```sql
+SHOW TABLES;
+```
+```sql
+SELECT * FROM customers;
+SELECT * FROM orders;
+```
+Удалить указанную запись из таблицы
 ```sql
 DELETE FROM orders WHERE id = 6;
 ```
+⚠️ Без `WHERE` удалятся все строки: `DELETE FROM orders;`
 
 Проверить:
-
 ```sql
 SELECT * FROM orders;
 ```
-
-⚠️ Без `WHERE` удалятся все строки: `DELETE FROM orders;`
 
 ---
 
@@ -775,13 +859,21 @@ SELECT * FROM orders;
 ```sql
 ALTER TABLE customers ADD COLUMN phone VARCHAR(20);
 ```
+проверить
+```sql
+SELECT * FROM customers;
+```
 Обновить данные в столбце phone
 ```sql
-UPDATE customers SET phone = '123' WHERE id = 4;
+UPDATE customers SET phone = '123-36-77' WHERE id = 4;
 ```
 Проверить
 ```sql
 SELECT * FROM customers WHERE id = 4;
+```
+или все записи
+```sql
+SELECT * FROM customers;
 ```
 
 ### Изменить тип столбца
@@ -792,6 +884,10 @@ ALTER TABLE customers MODIFY COLUMN phone VARCHAR(30);
 ### Удалить столбец
 ```sql
 ALTER TABLE customers DROP COLUMN phone;
+```
+проверить
+```sql
+SELECT * FROM customers;
 ```
 
 ---
@@ -809,6 +905,66 @@ DROP DATABASE sql_practice;
 Проверить
 ```sql
 SHOW DATABASES;
+```
+выйти из контейнера
+```sql
+\q
+```
+
+## 🧨 Шаг 13: Восстановление удалённой БД
+
+
+Проверьте, что контейнер запущен
+```shell
+docker ps -a
+```
+если не запущен - запутите:
+```shell
+docker start my-mysql
+```
+Проверьте, что дамп на месте и не пуст
+```shell
+ls -lh dump.sql
+```
+Файл должен быть в текущей директории, где вы его создавали. Если размер 0 байт — дамп пустой, восстанавливать нечего. Убедитесь, что вы находитесь в той же папке, где запускали mysqldump, либо укажите полный путь.
+
+Быстрая проверка содержимого:
+```shell
+head -n 30 dump.sql
+```
+зайти в контейнер
+```shell
+docker exec -it my-mysql mysql --default-character-set=utf8mb4 -uroot -p
+```
+выполните:
+```sql
+CREATE DATABASE sql_practice
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+```
+проверьте:
+```sql
+SHOW DATABASES;
+```
+Выйдите из MySQL:
+```sql
+\q
+```
+Команда импорта выполняется не внутри mysql, а в обычном терминале хоста (с игнорированием ошибок импорта):
+```shell
+docker exec -i my-mysql mysql -uroot -p123 --force sql_practice < dump.sql
+```
+Чтобы проверить результат, нужно снова зайти в контейнер с БД
+```shell
+docker exec -it my-mysql mysql --default-character-set=utf8mb4 -uroot -p
+```
+И проверить содержимое восстановленной БД
+```sql
+SHOW DATABASES;
+USE sql_practice;
+SHOW TABLES;
+SELECT * FROM customers;
+SELECT * FROM orders;
 ```
 
 ---

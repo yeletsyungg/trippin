@@ -12,6 +12,7 @@
 - Предметы:
     - [Инструментальные средства разработки ПО](/content/Courses/SoftwareDevelopmentTools/)
     - [Информационные технологии](/content/Courses/IT/)
+    - [Информационные системы и технологии](/content/Courses/IT_systems/README.md)
     - [Основы проектирования баз данных](/content/Courses/Basics_database_design/)
     - [Обеспечение качества функционирования компьютерных систем](/content//Courses/Ensuring_quality_computer_systems_functioning/)
     - [Поддержка и тестирование программных модулей](/content/Courses/SupportAndTesting_of_software_modules/)
@@ -177,6 +178,7 @@ git config --global user.email "rosa@mail.ru"
             - Если забыли пароль от **Ubuntu**, `passwd имя_пользователя` (получить имя пользователя Ubuntu командой `ls /home`)
             - Установить дополнительные утилиты в **Ubuntu**: в терминале **Ubuntu** запустить команду `sudo apt update && sudo apt install -y mc htop tree whois sl fastfetch wget curl inxi ncdu micro xclip xsel cmatrix caca-utils lm-sensors nyancat net-tools`
             - Установить поддержку `g++` и `clang++` в терминале **Ubuntu**: `sudo apt update && sudo apt install -y build-essential git gdb ascii clang mingw-w64`
+            - Добавить пользователя в группу `sudo usermod -aG docker $USER` для полноценной работы **Docker** в **Ubuntu WSL**
             - Проверить работу **Ubuntu** командами:
             - `uname -a` - краткая информация о системе
             - `neofetch` или `fastfetch` - наглядная ин-фа о системе
@@ -201,11 +203,13 @@ git config --global user.email "rosa@mail.ru"
 
 1. [Сначал включите **WSL** на своём компьютере!](#wsl)
 1. [Загрузить и установить Docker-Desktop](https://www.docker.com/products/docker-desktop/) или командой в **PowerShell** `winget install Docker.DockerDesktop`
-1. Выполнять авторизацию в **Docker-Desktop** не обязательно (можно пропустить или авторизироваться через Google), указать `personal`;
+1. Выполнять авторизацию в **Docker-Desktop** не обязательно (можно пропустить или авторизироваться через Google), указать `personal` и скипнуть;
 1. Перезагрузить компьютер;
 1. Запустить **Docker Desktop** (можно добавить в автозагрузку для удобства);
 1. Установить и запустить тестовый контейнер `docker run hello-world`
 1. Если `docker run hello-world` не срабатывает, то в **Ubuntu WSL** выполните `sudo service docker restart`
+1. Включите интеграцию с **WSL**: После запуска **Docker Desktop** перейдите в **Settings** (Настройки) → Resources (Ресурсы) → **WSL Integration** (Интеграция с WSL).
+1. Перезагрузить компьютер;
 
 > Если компьютер не тянет в **WSL 2.0** и **Docker**, то можно ограничется [Codespace](https://github.com/features/codespaces) (но не желательно, т.к. очень ограниченный функционал!)
 
@@ -260,7 +264,7 @@ git config --global user.email "rosa@mail.ru"
 ```shell
 code .
 ```
-*коде точка
+*code точка
 
 [Подробней о настройках VSCode](https://gitflic.ru/project/rurewa/education/blob?file=content/Programming/VCode.md&branch=master&mode=markdown)
 
@@ -309,6 +313,7 @@ code .
 * [Вопросы к экзамену по дисциплине «ОБЕСПЕЧЕНИЕ КАЧЕСТВА ФУНКЦИОНИРОВАНИЯ КОМПЬЮТЕРНЫХ СИСТЕМ»](/content/Courses/Ensuring_quality_computer_systems_functioning/questions.md)
 * [Вопросы к экзамену по дисциплине "Инструментальные средства разработки ПО"](/content/Courses/SoftwareDevelopmentTools/questions.md)
 * [Вопросы к экзамену по дисциплине "Информационные технологии"](/content/Courses/IT/questions.md)
+* [Вопросы к экзамену по дисциплине "Информационные системы и технологии"](/content/Courses/IT_systems/questions.md)
 * [Вопросы к экзамену по дисциплине "Операционные системы и среды"](/content/Courses/IT/questions.md)
 * [Вопросы к экзамену по дисциплине "Технология разработки и защиты БД"](/content/Courses/IT/questions.md)
 
