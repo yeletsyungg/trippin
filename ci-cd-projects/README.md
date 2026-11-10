@@ -11,7 +11,7 @@
 | 3 | Node.js / TypeScript REST API |(https://github.com/yeletsyungg/my-node-app)| 
 | 4 | Go |(https://github.com/yeletsyungg/my-go-app) | 
 | 5 | Rust CLI | (https://github.com/yeletsyungg/my-rust-app) | 
-| 6 | PHP + MySQL || — | 
+| 6 | PHP + MySQL |(https://github.com/yeletsyungg/my-php-app) | 
 | 7 | C++ | | — |
 | 8 | Hello Java! |  | — |
 | 9 | Pipeline CI на Rust 1 |  | — |
