@@ -13,8 +13,7 @@
 
 ## 🔹 0. Настройка `my.cnf`
 
-Замените содержимое файла `my.cnf` на это:
-
+Замените содержимое файла `my.cnf` в **WSL** на это:
 ```ini
 [mysqld]
 character-set-server = utf8mb4
@@ -56,6 +55,10 @@ docker ps -a
 ```shell
 docker stop my-mysql
 docker rm my-mysql
+```
+Например так:
+```shell
+rm general.log  index_dump_clean.sql  index_dump.sql  my_actions.log
 ```
 
 ### 1.3. Удалить volume учебных проектов
